@@ -1,0 +1,124 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, amsxtra}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{tabularray}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\usepackage{notomath}
+% \usepackage{fontspec}
+% \usepackage{unicode-math}
+% \setmainfont{FiraGO}
+% \setmathfont{Fira Math Book}
+
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, angles, calc, positioning}
+\usetikzlibrary{shapes.geometric, arrows.meta}
+\usetikzlibrary{decorations.pathmorphing, decorations.pathreplacing}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\makeatletter
+\newcommand{\type}[1]{\def\@type{#1}}
+
+\renewcommand*{\maketitle}{%
+\vspace{-0.5cm}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=south, align=center] (date) at ($(current page.north) + (0,-110pt)$) {\@date};
+    \node[anchor=south, align=center, font=\itshape] (author) at (date.north) {\@author};
+    \node[above=10pt of author, align=center, font=\scshape] (type) {\@type};
+    \node[anchor=south, align=center, font=\bfseries\large] (title) at (type.north) {\@title};
+    \node[anchor=west] (logo) at ($(current page.north west) + (\Gm@lmargin, -70pt)$) {\includegraphics[height=3.2cm]{../ufs_vertical_positiva.eps}};
+    \draw ($(current page.north west) + (\Gm@lmargin, -120pt)$) -- ($(current page.north east) + (-\Gm@lmargin, -120pt)$);
+\end{tikzpicture}
+\vspace{45pt}
+}%
+\makeatother
+
+\newcommand{\cT}{\mathcal T}
+
+\title{Tópicos de Geometria e\\Topologia}
+\type{Lista 2}
+\author{Bruno Sant'Anna}
+\date{14 de janeiro de 2024}
+
+\begin{document}
+\maketitle
+
+Sejam $X$, $Y$, $Z$ espaços topológicos, $f: X \to Y$, $g: Y \to Z$ funções contínuas e $p \in X$. 
+Mostre que
+\begin{enumerate}[label=\alph*., leftmargin=*]
+    \item O homomorfismo induzido $(g \circ f)_* : \pi_1 (X, p) \to \pi_1 (Z, (g \circ f)(p))$ coincide com a composição dos respectivos homomorfismos induzidos $g_* \circ f_*$, onde $f_* : \pi_1 (X, p) \to \pi_1(Y, f(p))$ e $g_* : \pi_1 (Y, f(p)) \to \pi_1 (Z, (g \circ f)(p))$.
+    
+    \item Se $I_X$ denota a identidade de $X$, então o homomorfismo induzido $(I_X)_*$ coincide com o homomorfismo identidade do grupo fundamental $\pi_1 (X,p)$.
+\end{enumerate}
+
+\textcolor{black!30}{\hrulefill}
+
+\begin{enumerate}[label=\alph*., leftmargin=*]
+    \item Se $\psi : X \to Y$ é um mapa contínuo e $p \in X$, então o mapa 
+    \[
+    \begin{tblr}{
+        colspec={rrcl}, 
+        leftsep=1pt, rightsep=1pt
+        }
+        \psi_* : & \,\pi_1 (X, p) &\to     & \pi_1 (X, \psi(p))\\
+                 &  [\gamma]      &\mapsto & [\psi \circ \gamma]
+    \end{tblr}
+    \]
+    é dito mapa induzido de $\psi$ e está bem definido
+
+    Sejam $f : X \to Y$ e $g : Y \to Z$ mapas contínuos entre espaços topologicos e $p \in X$.
+    Pela definição de mapa induzido temos
+    \[(g \circ f)_* [\gamma] = [(g \circ f) \circ \gamma]\]
+    como a composição de mapas é associativa
+    \[[(g \circ f) \circ \gamma] = [g \circ (f \circ \gamma)]\]
+    e novamente utilizando a definiçao de mapa induzido
+    \[[g \circ (f \circ \gamma)] = g_* [f \circ \gamma] = (g_* \circ f_*) [\gamma].\]
+    Então de fato, o homomorfismo induzido $(g \circ f)_*$ coincide com a composição $g_* \circ f_*$ 
+
+    \item Se $I_X : X \to X$ é a identidade de $X$, então o mapa induzido $(I_X)_* : \pi_1 (X, p) \to \pi_1 (X, p)$ é a identidade de $\pi_1 (X,p)$. Com efeito
+    \[(I_X)_* [\gamma] = [I_X \circ \gamma] = [\gamma]\]
+    ou seja, a classe de $\gamma$ por meio de $(I_X)_*$ foi levada a ela mesma. Portanto $(I_X)_*$ é a identidade em $\pi_1 (X,p)$
+\end{enumerate}
+
+% \newpage
+
+% \maketitle
+
+% Seja $X$ um espaço topológico conexo por caminhos e considere $p \in X$. Se $e_p : [0,1] \to X$ denota o caminho constante baseado em $p$. 
+% Mostre que
+% \begin{enumerate}[label=\alph*., leftmargin=*]
+%     \item Dois laços $f,g \in \Omega(X, p)$ são caminhos homotópicos se, e somente se $f^{-1} \cdot g$ é homotópico a $e_p$
+
+%     \item $X$ é simplesmente conexo se, e somente se dois caminhos em $X$ com os mesmos pontos inicial e final são caminhos homotópicos.
+% \end{enumerate}
+
+% \textcolor{black!30}{\hrulefill}
+
+% \begin{enumerate}[label=\alph*., leftmargin=*]
+%     \item Dados $f,g \in \Omega(X,p)$, $f$ e $g$ são laços homotópicos se, e somente se as suas classes no grupo fundamental $\pi_1 (X,p)$ são iguais.
+%     Então, 
+%     \begin{align*}
+%         f \simeq g &\iff [f] = [g]\\
+%         &\iff [e_p] = [f^{-1}] \cdot [g]\\
+%         &\iff e_p \simeq f^{-1} \cdot g
+%     \end{align*}
+% \end{enumerate}
+
+
+
+\end{document}

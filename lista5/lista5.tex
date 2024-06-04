@@ -1,0 +1,131 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, amsxtra}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{tabularray}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\usepackage{notomath}
+
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\usepackage[portuguese]{babel}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, angles, calc, positioning}
+\usetikzlibrary{shapes.geometric, arrows.meta}
+\usetikzlibrary{decorations.pathmorphing, decorations.pathreplacing}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\makeatletter
+\newcommand{\type}[1]{\def\@type{#1}}
+
+\renewcommand*{\maketitle}{%
+\vspace{-0.5cm}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=south, align=center] (date) at ($(current page.north) + (0,-110pt)$) {\@date};
+    \node[anchor=south, align=center, font=\itshape] (author) at (date.north) {\@author};
+    \node[above=10pt of author, align=center, font=\scshape] (type) {\@type};
+    \node[anchor=south, align=center, font=\bfseries\large] (title) at (type.north) {\@title};
+    \node[anchor=west] (logo) at ($(current page.north west) + (\Gm@lmargin, -70pt)$) {\includegraphics[height=3.2cm]{../ufs_vertical_positiva.eps}};
+    \draw ($(current page.north west) + (\Gm@lmargin, -120pt)$) -- ($(current page.north east) + (-\Gm@lmargin, -120pt)$);
+\end{tikzpicture}
+\vspace{45pt}
+}%
+\makeatother
+
+\newcommand{\cT}{\mathcal T}
+\newcommand{\bC}{\mathbf C}
+\newcommand{\bR}{\mathbf R}
+\newcommand{\bS}{\mathbf S}
+\newcommand{\bx}{\mathbf x}
+
+\title{Tópicos de Geometria e\\Topologia}
+\type{Lista 5}
+\author{Bruno Sant'Anna}
+\date{02 de março de 2024}
+
+\begin{document}
+\maketitle
+
+Seja $Q$ uma forma quadrática positiva definida em $\bR^n$. Mostre que $Q^{-1}(y)$ é difeomorfo à esfera $\bS^{n-1}$ para todo $y > 0$
+
+\textcolor{black!30}{\hrulefill}
+
+Dado uma forma quadrática $Q$ temos que
+\[
+    Q(\bx) = \left\langle \bx, A\bx \right\rangle = \bx^T A \bx
+\]
+onde $A$ é uma matriz simétrica e positiva definida.
+Para definir o difeomorfismo, vale lembrar que qualquer matriz simétrica pode ser transformada em uma matriz diagonal, pela relação $\Lambda = P^T A P$, onde $\Lambda$ é a matriz diagonal de autovalores de $A$, e $P$ é uma matriz inversível.
+
+Dado $\bx \in Q^{-1}(y)$, isto é, $\bx^T A \bx = y$, defina o mapa
+\[
+    \begin{tblr}{
+        colspec={rrcl}, 
+        leftsep=1pt, rightsep=1pt
+        }
+        \psi: & Q^{-1}(y) & \to     & Q^{-1}(y)\\
+              & \bx       & \mapsto & P \bx
+    \end{tblr}
+\]
+onde $P$ é a matriz que diagonaliza $A$
+
+Por outro lado, defina o mapa
+\[
+    \begin{tblr}{
+        colspec={rrcl}, 
+        leftsep=1pt, rightsep=1pt
+        }
+        \phi: & Q^{-1}(y) & \to     & Q^{-1}(y)\\
+              & \bx       & \mapsto & S \bx
+    \end{tblr}
+\]
+com $S$ sendo
+\[
+    S = 
+    \begin{pmatrix}
+        \sqrt{\gamma_1} & 0 & \cdots & 0\\
+        0 & \sqrt{\gamma_2} & \cdots & 0\\
+        \vdots & \vdots & \ddots & \vdots\\
+        0 & 0 & \cdots & \sqrt{\gamma_n}
+    \end{pmatrix}
+\]
+onde $\gamma_i = y \lambda_i^{-1}$ e $\lambda_i = \Lambda_{ii}$ é o i-ésimo autovalor.
+Note que $S$ está bem definida, já que $A$ é uma matriz simétrica e positiva definida, então, todos seus autovalores são positivos, ou seja, possuem inverso multiplicativo e raiz quadrada.
+
+Compondo os dois mapas, temos
+\[
+    \begin{tblr}{
+        colspec={rrcl}, 
+        leftsep=1pt, rightsep=1pt
+        }
+        \phi \circ \psi : & Q^{-1}(y) & \to     & Q^{-1}(y)\\
+                          & \bx       & \mapsto & P S \bx
+    \end{tblr}
+\]
+Perceba que $\phi \circ \psi \left(Q^{-1}(y)\right) = \bS^{n-1}$.
+Com efeito, seja $\bx \in Q^{-1}(y)$, fazendo $\phi \circ \psi (\bx)$,
+\begin{align*}
+    (P S \bx)^T A (P S \bx) &= y\\
+    \bx^T S^T (P^T A P) S \bx &= y\\
+    \bx^T (S^T \Lambda S) \bx &= y\\
+    \bx^T y I_n \bx &= y\\
+    \bx^T \bx &= 1
+\end{align*}
+Pela outra definição de forma quadrática, segue que $\left\langle \bx, \bx \right\rangle = \left\lVert \bx \right\rVert^2 = 1$, ou seja $\phi \circ \psi (\bx) \in \bS^{n-1}$
+
+Por fim, é fácil ver que $\widetilde{\phi \circ \psi} : Q^{-1}(y) \to \bS^{n-1}$ é um difeomorfismo, pois $\widetilde{\phi \circ \psi}$ é uma transformação linear, que em particular é um difeomorfismo.
+\end{document}
