@@ -1,6 +1,6 @@
 # MAT0094 (Tópicos de Topologia e Geometria)
 
-### Ementa
+## Ementa
 
 - Espaços topólogicos
 - Compacidade e Conexidade
