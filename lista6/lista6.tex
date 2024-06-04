@@ -1,0 +1,210 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, amsxtra}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{tabularray}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\usepackage{notomath}
+
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\usepackage[portuguese]{babel}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, angles, calc, positioning}
+\usetikzlibrary{shapes.geometric, arrows.meta}
+\usetikzlibrary{decorations.pathmorphing, decorations.pathreplacing}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\makeatletter
+\newcommand{\type}[1]{\def\@type{#1}}
+
+\renewcommand*{\maketitle}{%
+\vspace{-0.5cm}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=south, align=center] (date) at ($(current page.north) + (0,-110pt)$) {\@date};
+    \node[anchor=south, align=center, font=\itshape] (author) at (date.north) {\@author};
+    \node[above=10pt of author, align=center, font=\scshape] (type) {\@type};
+    \node[anchor=south, align=center, font=\bfseries\large] (title) at (type.north) {\@title};
+    \node[anchor=west] (logo) at ($(current page.north west) + (\Gm@lmargin, -70pt)$) {\includegraphics[height=3.2cm]{../ufs_vertical_positiva.eps}};
+    \draw ($(current page.north west) + (\Gm@lmargin, -120pt)$) -- ($(current page.north east) + (-\Gm@lmargin, -120pt)$);
+\end{tikzpicture}
+\vspace{45pt}
+}%
+\makeatother
+
+\newcommand{\colorboxed}[2]{\textcolor{#1}{\boxed{\textcolor{black}{#2}}}}
+
+\newcommand{\undercolorboxed}[3]{\underset{\textcolor{#1}{#3}}{\textcolor{#1}{\boxed{\textcolor{black}{#2}}}}}
+
+\newcommand{\cT}{\mathcal T}
+\newcommand{\bC}{\mathbf C}
+\newcommand{\bR}{\mathbf R}
+\newcommand{\bS}{\mathbf S}
+\newcommand{\bx}{\mathbf x}
+\newcommand{\rd}{\mathrm d}
+
+\title{Tópicos de Geometria e\\Topologia}
+\type{Lista 6}
+\author{Bruno Sant'Anna}
+\date{22 de março de 2024}
+
+\begin{document}
+\maketitle
+
+Defina a 2-forma diferencial $\omega$ em $\bR^3$ por
+\[
+    \omega = x \rd y \wedge  \rd z + y \rd z \wedge \rd y + z \rd x \wedge \rd y
+\]
+Considere $\iota : \bS^2 \to \bR^3$ o mapa inclusão onde $\bS^2$ é a esfera unitária centrada na origem
+\begin{enumerate}[leftmargin=*, label=\alph*.]
+    \item Mostre que a forma $\iota^* \omega$ nunca se anula, ou seja $\iota^* \omega (x) \neq 0$ em $\Lambda^2 (T_x \bS^2)$ para todo $x$
+    \item Escreva $\psi^* \iota^* \omega = f(\theta, \phi) \, \rd \theta \wedge \rd \phi$, onde $\psi(\theta, \phi) = (\sin \phi \cos \theta, \sin \phi \sin \theta, \cos \phi)$ é uma parametrização de um aberto em $\bS^2$ e calcule a integral
+    \[
+        \int_0^\pi \int_0^{2\pi} f(\theta, \phi) \, \rd \theta \rd \phi
+    \]
+\end{enumerate}
+
+\textcolor{black!30}{\hrulefill}
+
+\begin{enumerate}[leftmargin=*, label=\alph*.]
+    \item Com efeito, o mapa inclusão é dado por
+    \[
+        \begin{tblr}{
+            colspec={rrcl}, 
+            leftsep=1pt, rightsep=1pt
+            }
+            \iota: & \bS^2 & \to     & \bR^3\\
+                   & x     & \mapsto & x
+        \end{tblr}
+    \]
+    consequentemente, seja $\omega = x \rd y \wedge  \rd z + y \rd z \wedge \rd y + z \rd x \wedge \rd y \in \Omega^2 (\bR^3)$, queremos calcular o \textit{pullback} de $\omega$ por $\iota$, isto é
+    \[
+        \iota^* \omega (x, y, z) = \omega (\iota (x,y,z))
+    \]
+    porém, se $(x,y,z)$ está na esfera,
+    \[
+        \iota^* \omega (x, y, z) = \omega (x,y,z).
+    \]
+    Logo, $\iota^* \omega = \omega |_{\bS^2}$.
+
+    Para mostrar que $\iota^* \omega$ nunca se anula, considere $x = (x_1, x_2, x_3)$ na esfera e $v = (-x_3, 0, x_1)$, $w = (x_2, -x_1, 0)$ não nulos e ortogonais a $x$.
+    Aplicando o par de vetores em $\iota^* \omega (x) = \omega_{x}$ temos
+    \begin{align*}
+        \omega_x (v, w) &= x_1 \, \rd y \wedge \rd z(v, w) + x_2 \, \rd z \wedge \rd x (v, w) + x_3 \, \rd x \wedge \rd y(v,w)\\
+        &= x_1
+        \begin{vmatrix}
+            \rd y (v) & \rd z (v)\\
+            \rd y (w) & \rd z (w)
+        \end{vmatrix}
+        + x_2
+        \begin{vmatrix}
+            \rd z (v) & \rd x (v)\\
+            \rd z (w) & \rd x (w)
+        \end{vmatrix}
+        + x_3
+        \begin{vmatrix}
+            \rd x (v) & \rd y (v)\\
+            \rd x (w) & \rd y (w)
+        \end{vmatrix}\\
+        &= x_1
+        \begin{vmatrix}
+            0 & x_1\\
+            -x_1 & 0
+        \end{vmatrix}
+        + x_2
+        \begin{vmatrix}
+            x_1 & -x_3\\
+            0 & x_2
+        \end{vmatrix}
+        + x_3
+        \begin{vmatrix}
+            -x_3 & 0\\
+            x_2 & -x_1
+        \end{vmatrix}\\
+        &= x_1 x_1^2 + x_1 x_2^2 + x_1 x_3^2\\
+        &= x_1
+    \end{align*}
+    logo, $\iota^* \omega (x) = 0$ quando $x_1 = 0$.
+
+    De forma análoga, agora com $v = (x_2, -x_1, 0)$ e $w = (0, x_3, -x_2)$ temos 
+    \[
+        \omega_x (v, w) = x_2
+    \]
+    ou seja, $\iota^* \omega (x) = 0$ quando $x_2 = 0$, já com $v = (-x_3, 0, x_1)$ e $w = (0, -x_3, x_2)$, temos
+    \[
+        \omega_x (v, w) = x_3
+    \]
+    então, $\iota^* \omega (x) = 0$ quando $x_3 = 0$.
+
+    Portanto, $\iota^* \omega (x) = 0$, se, e somente se $x = 0$, que não é um ponto da esfera, então a forma $\iota^* \omega$ nunca se anula.
+    
+    \item Agora calculando o pullback de $\omega$ por $\psi = \psi(\theta, \phi) = (\sin \phi \cos \theta, \sin \phi \sin \theta, \cos \phi)$. Usando o que foi provado no item (a), temos
+    \begin{align*}
+        \psi^* \iota^* \omega &= \psi^* \omega\\
+        &= \psi^* (x \rd y \wedge  \rd z + y \rd z \wedge \rd y + z \rd x \wedge \rd y)\\
+    \end{align*}
+    pela linearidade do pullback
+    \[
+        \psi^* \omega = \psi^* (x \rd y \wedge \rd z) + \psi^* (y \rd z \wedge \rd x) + \psi^* (z \rd x \wedge \rd y) 
+    \]
+    
+    Calculando cada parte individualmente temos
+    \begin{align*}
+        \psi^* (\rd y \wedge \rd z) &= \rd (\sin\theta \sin \theta) \wedge \rd (\cos \phi)\\
+        &= (\sin \phi \cos \theta \, \rd \theta + \cos \phi \sin \theta \, \rd \phi) \wedge (-\sin \phi \, \rd \phi)
+    \end{align*}
+    pela distributividade do produto wedge, e do fato que $\rd \phi \wedge \rd \phi = 0$
+    \[
+        \psi^* (\rd y \wedge \rd z) = -\sin^2 \phi \cos \theta \, \rd \theta \wedge \rd \phi.
+    \]
+    Analogamente
+    \begin{align*}
+        \psi^* (\rd z \wedge \rd x) &= \rd (\cos \theta) \wedge \rd (\sin \phi \cos \theta)\\
+        &= (-\sin \theta \, \rd \phi) \wedge (-\sin \phi \sin \theta \, \rd \theta + \cos \theta \cos \theta \, \rd \phi)\\
+        &= \sin^2 \sin \theta \, \rd \phi \wedge \rd \theta\\
+        &= -\sin^2 \phi \sin \theta \, \rd \theta \wedge \rd \phi
+    \end{align*}
+    e
+    \begin{align*}
+        \psi^* (\rd x \wedge \rd y) &= \rd(\sin \phi \cos \theta) \wedge \rd (\sin \phi \sin \theta)\\
+        &= (-\sin \phi \sin \theta \, \rd \theta + \cos \phi \cos \theta \, \rd \phi) \wedge (\sin \phi \cos \theta \, \rd \theta + \cos \phi \sin \theta \, \rd \phi)\\
+        &= \sin \phi \cos \phi \sin^2 \theta \, \rd \phi \wedge \rd \theta + \sin \phi \cos \phi \cos^2 \theta \, \rd \phi \wedge \rd \theta\\
+        &= -\sin \phi \cos \phi \, \rd \theta \wedge \rd \phi
+    \end{align*}
+    
+    Por fim, juntando tudo
+
+    \begin{align*}
+        \psi^* \omega &= \psi^* (x) \, \psi^*(\rd y \wedge \rd z) + \psi^* (y) \, \psi^* (\rd z \wedge \rd x) + \psi^* (z) \, \psi^* (\rd x \wedge \rd y)\\
+        &= -\sin^3 \phi \cos^2 \theta \, \rd \theta \wedge \rd \phi -\sin^3 \phi \sin^2 \theta \, \rd \theta \wedge \rd \phi - \sin \phi \cos^2 \phi \, \rd \theta \wedge \rd \phi\\
+        &= (-\sin^3 \phi \cos^2 \theta  -\sin^3 \phi \sin^2 \theta  - \sin \phi \cos^2 \phi) \, \rd \theta \wedge \rd \phi\\
+        &= (-(\sin^2 \theta + \cos^2 \theta)\sin^3 \phi  -\sin \phi \cos^2 \phi) \, \rd \theta \wedge \rd \phi\\
+        &=(-\sin^2 \phi \sin \phi - \sin\phi \cos^2 \phi)\\
+        &= (-(\sin^2 \phi + \cos^2 \phi)\sin\phi) \, \rd \theta \wedge \rd \phi\\
+        &= -\sin \phi \, \rd \theta \wedge \rd \phi
+    \end{align*}
+
+    Logo, $f(\theta, \phi) = -\sin \phi$.
+    Portanto, podemos calcular a integral
+    \begin{align*}
+        \int_0^\pi \int_0^{2\pi} -\sin \phi \, \rd \theta \rd \phi &= -\int_{0}^{\pi} \sin \phi \, \rd \phi \int_0^{2\pi} \rd \theta\\
+        &= -2\pi \int_0^{\pi} \sin \phi \, \rd \phi\\
+        &= 2\pi [\cos \pi - \cos 0]\\
+        &= -4\pi
+    \end{align*}
+\end{enumerate}
+\end{document}

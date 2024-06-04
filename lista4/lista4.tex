@@ -1,0 +1,93 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, amsxtra}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{tabularray}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\usepackage{notomath}
+
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\usepackage[portuguese]{babel}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, angles, calc, positioning}
+\usetikzlibrary{shapes.geometric, arrows.meta}
+\usetikzlibrary{decorations.pathmorphing, decorations.pathreplacing}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\makeatletter
+\newcommand{\type}[1]{\def\@type{#1}}
+
+\renewcommand*{\maketitle}{%
+\vspace{-0.5cm}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=south, align=center] (date) at ($(current page.north) + (0,-110pt)$) {\@date};
+    \node[anchor=south, align=center, font=\itshape] (author) at (date.north) {\@author};
+    \node[above=10pt of author, align=center, font=\scshape] (type) {\@type};
+    \node[anchor=south, align=center, font=\bfseries\large] (title) at (type.north) {\@title};
+    \node[anchor=west] (logo) at ($(current page.north west) + (\Gm@lmargin, -70pt)$) {\includegraphics[height=3.2cm]{../ufs_vertical_positiva.eps}};
+    \draw ($(current page.north west) + (\Gm@lmargin, -120pt)$) -- ($(current page.north east) + (-\Gm@lmargin, -120pt)$);
+\end{tikzpicture}
+\vspace{45pt}
+}%
+\makeatother
+
+\newcommand{\cT}{\mathcal T}
+\newcommand{\bC}{\mathbf C}
+
+\title{Tópicos de Geometria e\\Topologia}
+\type{Lista 4}
+\author{Bruno Sant'Anna}
+\date{19 de fevereiro de 2024}
+
+\begin{document}
+\maketitle
+
+Sejam $X, Y, Z$ espaços topológicos conexos e localmente conexos por caminhos.
+Considere mapas contínuos $p : X \to Y$, $q : Y \to Z$ e $X \to Z$ tais que $r = q \circ p$ e assuma que $p$ e $r$ são mapas de recobrimento.
+Mostre que $q$ é um mapa de recobrimento.
+
+\textcolor{black!30}{\hrulefill}
+
+De fato, $q : Y \to Z$ é um mapa de recobrimento.
+Como $r : X \to Z$ é um mapa de recobrimento, então, dado $z \in Z$ existe uma vizinhança $\Gamma$ de $z$ tal que $r^{-1}(\Gamma) = \sqcup\, \Omega_\alpha$. 
+Da definição de $r$ segue que 
+\[
+    (q \circ p)^{-1}(\Gamma) = p^{-1} \circ q^{-1} (\Gamma) = {\textstyle\bigsqcup} \Omega_\alpha
+\]
+como $p$ é mapa de recobrimento, em particular $p$ é sobrejetívo, consequentemente tem inversa à esquerda, daí
+\begin{align*}
+    p \circ p^{-1} \circ q^{-1} (\Gamma) &= p\left( {\textstyle\bigsqcup}  \Omega_\alpha \right)\\
+    q^{-1}(\Gamma) &= {\textstyle\bigsqcup}  p(\Omega_\alpha)
+\end{align*}
+onde $p(\Omega_\alpha)$ é sempre aberto pois mapas de recobrimentos levam conjuntos abertos em abertos.
+Ou seja, dado um $z \in Z$ existe uma vizinhança de $z$ tal que a imagem inversa por $q$ é a união disjunta de abertos em $Y$
+
+Além disso precisamos mostrar que $q |_{p(\Omega_\alpha)} : p(\Omega_\alpha) \to \Gamma$ é um homeomorfismo. Com efeito, como $r$ é mapa de recobrimento, sabemos que $r|_{\Omega_\alpha} : \Omega_\alpha \to \Gamma$ é um homeomorfismo, e $r = q \circ p$, então
+\begin{align*}
+    r|_{\Omega_\alpha} &= (q \circ p)|_{\Omega_\alpha}\\
+    &= q|_{p(\Omega_\alpha)} \circ p|_{\Omega_\alpha}
+\end{align*}
+onde $p|_{\Omega_\alpha}$ é um homeomorfismo pois $p$ é mapa de recobrimento, então tem inversa $p|^{-1}_{\Omega_\alpha}$, daí
+\[
+    q|_{p(\Omega_\alpha)} = r|_{\Omega_\alpha} \circ p|^{-1}_{\Omega_\alpha}
+\]
+Logo, $q|_{p(\Omega_\alpha)}$ é uma composição de homeomorfismos, que é um homeomorfismo.
+
+Portanto, $q : Y \to Z$ é um mapa de recobrimento.
+
+\end{document}

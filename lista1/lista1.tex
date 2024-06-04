@@ -1,0 +1,120 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, amsxtra}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{tabularray}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\usepackage{notomath}
+
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, angles, calc, positioning}
+\usetikzlibrary{shapes.geometric, arrows.meta}
+\usetikzlibrary{decorations.pathmorphing, decorations.pathreplacing}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\makeatletter
+\newcommand{\type}[1]{\def\@type{#1}}
+
+\renewcommand*{\maketitle}{%
+\vspace{-0.5cm}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=south, align=center] (date) at ($(current page.north) + (0,-110pt)$) {\@date};
+    \node[anchor=south, align=center, font=\itshape] (author) at (date.north) {\@author};
+    \node[above=10pt of author, align=center, font=\scshape] (type) {\@type};
+    \node[anchor=south, align=center, font=\bfseries\large] (title) at (type.north) {\@title};
+    \node[anchor=west] (logo) at ($(current page.north west) + (\Gm@lmargin, -70pt)$) {\includegraphics[height=3.15cm]{../ufs_vertical_positiva.eps}};
+    \draw ($(current page.north west) + (\Gm@lmargin, -120pt)$) -- ($(current page.north east) + (-\Gm@lmargin, -120pt)$);
+\end{tikzpicture}
+\vspace{45pt}
+}%
+\makeatother
+
+\newcommand{\cT}{\mathcal T}
+
+\title{Tópicos de Geometria e\\Topologia}
+\type{Lista 1}
+\author{Bruno Sant'Anna}
+\date{14 de novembro de 2023}
+
+\begin{document}
+\maketitle
+
+Seja $X$ um conjunto infinito. Considere as seguintes coleções de subconjuntos de $X$.
+\begin{align*}
+    \cT_1 &= \{U \subseteq X \,; X \setminus U \text{ é finito ou todo } X\}\\
+    \cT_2 &= \{U \subseteq X \,; X \setminus U \text{ é infinito ou vazio}\}\\
+    \cT_3 &= \{U \subseteq X \,; X \setminus U \text{ é enumerável ou todo } X\}
+\end{align*}
+Para cada uma das coleções determine se é uma topologia.
+
+\textcolor{black!30}{\hrulefill}
+
+Para que uma coleção $\cT$ de subconjuntos de um conjunto $X$ seja uma topologia, é necessário mostrar que
+\begin{enumerate}
+    \item $\emptyset, X \in \cT$ \label{Xempty}
+    \item A interseção finita de elementos de $\cT$ está em $\cT$. \label{inters}
+    \item A união qualquer de elementos de $\cT$ está em $\cT$ \label{uniao}
+\end{enumerate}
+
+$\cT_1$ é uma topologia em $X$
+\begin{enumerate}[leftmargin=*]
+    \item $\emptyset \in \cT_1$, de fato, $X \setminus \emptyset = X$, que não é um conjunto finito, mas é todo $X$.
+    Além disso, $X \in \cT_1$, já que $X \setminus X = \emptyset$, que é um conjunto finito.
+
+    \item Sejam $A_1, A_2 \in \cT_1$, precisamos mostrar que $A_1 \cap A_2 \in \cT_1$, com efeito, pela definição da topologia $\cT_1$, isso é equivalente a mostrar que $X \setminus (A_1 \cap A_2)$ é finito ou $X$.
+    Usando as leis de De Morgan, temos que
+    \[
+        X \setminus (A_1 \cap A_2) = (X \setminus A_1) \cup (X \setminus A_2)
+    \]
+    como $A_1$ e $A_2$ estão em $\cT_1$, segue que $(X \setminus A_1)$ e $(X \setminus A_2)$ são conjuntos finitos, e a união de conjuntos finitos é finita, logo, $X \setminus (A_1 \cap A_2)$ é finito e $A_1 \cap A_2 \in \cT_1$.
+
+    \item Seja $\{A_\lambda\}$ uma coleção de abertos em $X$ em relação a topologia $\cT_1$.
+    Precisamos mostrar que $A = \bigcup_{\lambda \in \Lambda} A_\lambda$, onde $\Lambda$ é um conjunto de indices, também é aberto em $X$.
+    De fato, como no caso anterior, isso é o mesmo que mostrar que $X \setminus A$ é finito. Novamente usando as leis de De Morgan, temos
+    \[
+        X \setminus \left(\bigcup_{\lambda \in \Lambda} A_\lambda \right) = \bigcap_{\lambda \in \Lambda} \left( X \setminus A_\lambda \right)
+    \]
+    Como todos $X \setminus A_\lambda$ são finitos, a interseção também será, então $X \setminus A$ é finito, e por isso, $A = \bigcup_{\lambda \in \Lambda} A_\lambda \in \cT_1$
+\end{enumerate}
+Como as propiedades foram todas satisfeitas, podemos afirmar que $\cT_1$ é uma topologia sobre $X$.
+
+$\cT_2$ não é uma topologia em $X$.
+
+\medskip
+Note que a propiedade \ref{uniao} não é válida na topologia $\cT_2$.
+De fato, seja $\{A_\lambda\}$ uma coleção de elementos de $\cT_2$, nesse caso para todo $\lambda \in \Lambda$ temos que $X \setminus A_\lambda$ é infinito, porem a interseção de conjuntos infinitos não é necessariamente infinita, então é possível que $X \setminus \bigcup_{\lambda \in \Lambda} A_\lambda$ seja finito, ou seja, nessa situação  $A = \bigcup_{\lambda \in \Lambda} A_\lambda \not\in \cT_2$.
+
+\pagebreak
+$\cT_3$ é uma topologia em $X$.
+\begin{enumerate}[leftmargin=*]
+    \item $\emptyset \in \cT_3$, pois $X \setminus \emptyset = X$, e $X \in \cT_3$, já que $X \setminus X = \emptyset$ que é um conjunto enumerável pois é finito.
+    
+    \item Da mesma forma que mostramos que a interseção de elementos de $\cT$ está em $\cT$ para a topologia $\cT_1$, podemos mostrar que o mesmo vale para a topologia $\cT_3$.
+    Com efeito, dados $A_1, A_2 \in \cT_3$, daí, $X \setminus A_1$ e $X \setminus A_2$ são enumeráveis. 
+    Para que $A_1 \cap A_2$ esteja em $\cT_3$ é necessário que $X \setminus (A_1 \cap A_2)$ seja enumerável, de fato, pela lei de De Morgan isso é equivalente a $(X \setminus A_1) \cup (X \setminus A_2)$, que é enumerável pois é uma união finita de conjuntos enumeráveis, então, $A_1 \cap A_2 \in \cT_3$.
+
+    \item Seja $\{A_\lambda\}$ uma coleção de abertos em $X$ em relação a topologia $\cT_3$.
+    Usando os mesmos argumentos dos casos anteriores, se $A_\lambda \in \cT_3$, então $X \setminus A_\lambda$ é enumerável, daí
+    \[
+        X \setminus \left(\bigcup_{\lambda \in \Lambda} A_\lambda \right) = \bigcap_{\lambda \in \Lambda} \left( X \setminus A_\lambda \right)
+    \]
+    como a interseção de conjuntos enumeráveis é enumerável, temos que $X \setminus \bigcup_{\lambda \in \Lambda} A_\lambda$ é enumerável e $A = \bigcup_{\lambda \in \Lambda} A_\lambda \in \cT_3$
+\end{enumerate}
+Assim, está demonstrado que $\cT_3$ é uma topologia em $X$
+
+\end{document}

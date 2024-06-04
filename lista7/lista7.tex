@@ -1,0 +1,167 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, amsxtra}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{tabularray}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\usepackage{notomath}
+
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\usepackage[portuguese]{babel}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, angles, calc, positioning}
+\usetikzlibrary{shapes.geometric, arrows.meta}
+\usetikzlibrary{decorations.pathmorphing, decorations.pathreplacing}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\makeatletter
+\newcommand{\type}[1]{\def\@type{#1}}
+
+\renewcommand*{\maketitle}{%
+\vspace{-0.5cm}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=south, align=center] (date) at ($(current page.north) + (0,-110pt)$) {\@date};
+    \node[anchor=south, align=center, font=\itshape] (author) at (date.north) {\@author};
+    \node[above=10pt of author, align=center, font=\scshape] (type) {\@type};
+    \node[anchor=south, align=center, font=\bfseries\large] (title) at (type.north) {\@title};
+    \node[anchor=west] (logo) at ($(current page.north west) + (\Gm@lmargin, -70pt)$) {\includegraphics[height=3.2cm]{../ufs_vertical_positiva.eps}};
+    \draw ($(current page.north west) + (\Gm@lmargin, -120pt)$) -- ($(current page.north east) + (-\Gm@lmargin, -120pt)$);
+\end{tikzpicture}
+\vspace{45pt}
+}%
+\makeatother
+
+\newcommand{\colorboxed}[2]{\textcolor{#1}{\boxed{\textcolor{black}{#2}}}}
+
+\newcommand{\undercolorboxed}[3]{\underset{\textcolor{#1}{#3}}{\textcolor{#1}{\boxed{\textcolor{black}{#2}}}}}
+
+\newcommand{\cT}{\mathcal T}
+\newcommand{\cE}{\mathcal E}
+\newcommand{\bC}{\mathbf C}
+\newcommand{\bR}{\mathbf R}
+\newcommand{\bS}{\mathbf S}
+\newcommand{\bx}{\mathbf x}
+\newcommand{\rd}{\mathrm d}
+
+\newcommand{\del}{\partial}
+
+\DeclareMathOperator{\im}{im}
+
+\newcommand{\tk}[1]{\tikz[overlay, remember picture] \node (#1) {};}
+
+\title{Tópicos de Geometria e\\Topologia}
+\type{Lista 7}
+\author{Bruno Sant'Anna}
+\date{7 de abril de 2024}
+
+\begin{document}
+\maketitle
+
+Um \textit{complexo de cadeias} é uma sequência $\cE = \{ (V_p, \del_p) \, ; \del_p : V_p \to V_{p-1}\}$ onde cada $V_j$ é um espaço vetorial e $\del_j$ é um mapa linear de modo que $\del_{p-1} \circ \del_p = 0$ para todo $p$.
+Definimos os subespaços
+\begin{align*}
+    Z_p (\cE) &:= \ker(\del_p), \text{ o espaço dos ciclos de dimensão $p$}\\
+    B_p (\cE) &:= \im(\del_{p+1}), \text{ o espaço das fronteiras de dimensão $p$}
+\end{align*}
+O $p$-ésimo \textit{grupo de homologia} do complexo $\cE$ é o espaço quociente
+\[
+    H_p(\cE) = \frac{Z_p(\cE)}{B_p(\cE)}
+\]
+\begin{enumerate}[leftmargin=*, label=\alph*.]
+    \item Mostre que a sequencia $\cE^* = \{(V^*_p, \rd^p)\}$ é um \textit{complexo de cocadeias}, onde $V^*_p$ denota o espaço dual de $V_p$ e $\rd^p$ denota o operador transposto de $\del_{p+1}$, ou seja, para cada $\phi \in V^*_p$, $\rd^p(\phi) \in V^*_{p+1}$ é o funcional que associa o vetor $v$ ao número $\phi(\del_{p+1} v)$ 
+    \item Considere o mapa bilinear
+    \[
+        \begin{tblr}{
+            colspec={rrcl}, 
+            leftsep=1pt, rightsep=1pt
+            }
+            b: & V^*_p \times V_p & \to     & \bR\\
+               & (\phi, v)        & \mapsto & \phi(v)
+        \end{tblr}
+    \]
+    mostre que $b$ induz o homomorfismo
+    \[
+        \begin{tblr}{
+            colspec={rrcl}, 
+            leftsep=1pt, rightsep=1pt
+            }
+            B: & H^p(\cE^*) \times H_p(\cE) & \to     & \bR\\
+               & ([\phi], [v])               & \mapsto & \phi(v)
+        \end{tblr}
+    \]
+    e que a fórmula acima define isomorfismo $K : H^p (\cE^*) \to H_p(\cE)^*$
+\end{enumerate}
+
+\textcolor{black!30}{\hrulefill}
+
+\begin{align*}
+    \cE &: \cdots \longleftarrow V_{p-1} \overset{\del_p}{\longleftarrow} V_p \overset{\del_{p+1}}{\longleftarrow} V_{p+1} \longleftarrow \cdots\\
+    \cE^* &: \cdots \longrightarrow V^*_{p-1} \overset{\rd^{p-1}}{\longrightarrow} V^*_p \overset{\rd^p}{\longrightarrow} V^*_{p+1} \longrightarrow \cdots
+\end{align*}
+
+\begin{enumerate}[leftmargin=*, label=\alph*.]
+    \item Queremos mostrar que $\rd^p \circ \rd^{p-1} = 0$.
+    Com efeito, seja $\phi \in V^*_{p-1}$ e $v \in V_{p-1}$.
+    Utilizado a definição de $\rd^p$ temos
+    \begin{align*}
+        \rd^p \circ \rd^{p-1}(\phi)(v) &= \rd^p (\rd^{p-1} (\phi))(v)\\
+        &= \rd^{p-1}(\phi)(\del_{p+1} v)\\
+        % &= \phi(\del_p(\del_{p+1} v))\\
+        &= \phi(\del_p \circ \del_{p+1} v)\\
+    \end{align*}
+    Porem, $\cE$ é um complexo de cadeias, então $\del_p \circ \del_{p+1} = 0$, logo
+    \[
+        \rd^p \circ \rd^{p-1}(\phi)(v) = \phi(0)
+    \]
+    e $\phi$ é um funcional linear, portanto
+    \[
+        \rd^p \circ \rd^{p-1} = 0
+    \]
+
+    \item De fato, restrigindo $b$ a $Z_p(\cE^*) \times Z^p(\cE)$, queremos mostrar que $b(\phi, v) = 0$ quando $\phi \in B_p(\cE^*)$ e $v \in B^p(\cE)$.
+    Com efeito, seja $\psi \in V^*_p$ e $w  \in V_p$ tal que $\phi = \rd^{p-1} \psi$ e $v = \del_{p+1} w$.
+    \begin{align*}
+        b(\phi,v) &= \phi(\rd^{p-1}\psi, \del_{p+1}w)\\
+        &= \rd^{p-1} \psi (\del_{p+1}w)\\
+        &= \psi(\del_p \circ \del_{p+1}w)\\
+        &= \psi(0)\\
+        &= 0 
+    \end{align*}
+    Por fim precisamos verificar que existe um isomorfismo (de espaços vetoriais) entre $H^p (\cE^*)$ e $H_p(\cE)^*$.
+    De fato, defina $K : H^p (\cE^*) \to H_p(\cE)^*$ de forma que $K([\phi])([v]) = B([\phi], [v])$, com $v \in V_p$.
+    Dessa forma, $K$ é um isomorfismo.
+    Primeiramente, pela definição de $B$ é direto que $K$ é linear.
+
+    Para verificar a injetividade seja $[\phi] \in \ker K$, queremos mostrar que $[\phi] = 0$.
+    De fato,
+    \[
+        0 = K([\phi])(v) = B([\phi], [v]) = \phi(v)
+    \]
+    como isso é válido para todo $v \in V_p$, $\phi$ deve ser a transformação nula.
+    Então $[\phi] = 0$.
+
+    Para verificar a sobrejetividade, precisamos mostrar que dado $\phi \in H_p(\cE)^*$ existe um $[\psi] \in H^p(\cE)^*$ tal que $K([\psi]) = \phi$.
+    Com efeito,
+    \[
+        \phi(v) = K([\psi])(v) = \psi(v)
+    \]
+    para todo $v \in V_p$, ou seja, $[\psi] = [\phi]$.
+
+    Portanto, $K$ é um isomorfismo.
+\end{enumerate}
+\end{document}

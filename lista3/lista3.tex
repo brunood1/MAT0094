@@ -1,0 +1,86 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amsthm, amssymb, amsxtra}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{tabularray}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\usepackage{notomath}
+% \usepackage{fontspec}
+% \usepackage{unicode-math}
+% \setmainfont{FiraGO}
+% \setmathfont{Fira Math Book}
+
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\usepackage[portuguese]{babel}
+
+\usepackage{tikz}
+\usetikzlibrary{intersections, angles, calc, positioning}
+\usetikzlibrary{shapes.geometric, arrows.meta}
+\usetikzlibrary{decorations.pathmorphing, decorations.pathreplacing}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\makeatletter
+\newcommand{\type}[1]{\def\@type{#1}}
+
+\renewcommand*{\maketitle}{%
+\vspace{-0.5cm}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=south, align=center] (date) at ($(current page.north) + (0,-110pt)$) {\@date};
+    \node[anchor=south, align=center, font=\itshape] (author) at (date.north) {\@author};
+    \node[above=10pt of author, align=center, font=\scshape] (type) {\@type};
+    \node[anchor=south, align=center, font=\bfseries\large] (title) at (type.north) {\@title};
+    \node[anchor=west] (logo) at ($(current page.north west) + (\Gm@lmargin, -70pt)$) {\includegraphics[height=3.2cm]{../ufs_vertical_positiva.eps}};
+    \draw ($(current page.north west) + (\Gm@lmargin, -120pt)$) -- ($(current page.north east) + (-\Gm@lmargin, -120pt)$);
+\end{tikzpicture}
+\vspace{45pt}
+}%
+\makeatother
+
+\newcommand{\cT}{\mathcal T}
+\newcommand{\bC}{\mathbf C}
+
+\title{Tópicos de Geometria e\\Topologia}
+\type{Lista 3}
+\author{Bruno Sant'Anna}
+\date{2 de fevereiro de 2024}
+
+\begin{document}
+\maketitle
+
+Seja $S$ o seguinte conjunto de $\bC^2$
+\[S = \left\{ (z,w) \in \bC^2 \,; w^2 = z, w \neq 0 \right\}.\]
+Mostre que o mapa $\xi : S \to \bC \setminus \{0\}$ dado pela projeção em relação a primeira coordenada é um mapa de recobrimento de duas folhas.
+
+\textcolor{black!30}{\hrulefill}
+
+Seja $\xi$ a projeção para a primeira coordenada, isto é
+\[
+    \begin{tblr}{
+        colspec={rrcl}, 
+        leftsep=1pt, rightsep=1pt
+        }
+        \xi : & S \subseteq \bC^2 & \to     & \bC \setminus \{0\}\\
+              & (z,w)             & \mapsto & z
+    \end{tblr}
+\]
+onde $S = \left\{ (z,w) \in \bC^2 \,; w^2 = z, w \neq 0 \right\}$. 
+
+Queremos mostrar que $\xi$ é um mapa de recobrimento de duas folhas. Com efeito, primeiramente mostraremos que $\xi$ é um mapa de recobrimento, ou seja, $\xi$ é coninuo e sobrejetivo, e além disso, $S$ é conexo por caminhos. De fato, a continuídade é trivial pois $\xi$ é uma projeção, a sobrejetividade vem do fato de que qualquer número complexo é quadrado de algum outro número complexo, ainda mais, $S$ é conexo por caminhos pois $z = w^2$ é uma função contínua, logo dado dois pontos em $S$, existe um caminho que é subconjunto do gráfico de $z = w^2$ que liga os dois pontos. Então $\xi$ é um mapa de recobrimento.
+
+Além disso, note também que para todo $w \in \bC$, temos que $w^2 = (-w)^2$, então $(z,w)$ e $(z,-w)$ são projetados no mesmo ponto por $\xi$, ou seja $\xi^{-1} (z) = \{(z,w), (z,-w)\}$, para algum $z \in \bC \setminus \{0\}$, já que os pares $(z,w)$ e $(z,-w)$ estão em $S$. Como para qualquer mapa de recobrimento, a cardinalidade das fibras é a mesma independente do elemento, segue que $\xi$ é um mapa de recobrimento de duas folhas, pois toda fibra tem cardinalidade 2.
+
+\end{document}
